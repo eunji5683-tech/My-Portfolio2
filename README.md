@@ -37,9 +37,11 @@ HTML, CSS, JavaScript만 사용했고 별도 설치 없이 브라우저에서 �
 ## 카드 연결 주소 바꾸는 법
 `main.js` 맨 위의 `PROJECTS`와 `USE_LOCAL_LINKS`에서 바꿔요. 한국어 설명이 달려 있어요.
 
-- `USE_LOCAL_LINKS = true`: 메뉴보드와 적립스탬프 카드가 **내 컴퓨터에 있는 앱 화면**을 열어요. 이 폴더 옆에 `메뉴판`, `단골 적립 스탬프` 폴더가 나란히 있을 때만 돼요.
-- `USE_LOCAL_LINKS = false`: 두 카드가 **GitHub 저장소 주소**로 가요. 어디서 열어도 돼요.
-- 나중에 GitHub Pages 같은 진짜 사이트 주소가 생기면 `PROJECTS`의 `github` 자리에 그 주소를 넣으세요.
+- **인터넷 사이트로 열었을 때**: 메뉴보드와 적립스탬프 카드는 각 앱의 **진짜 사이트 주소**(`live`)로 가요.
+  - 메뉴보드: https://eunji5683-tech.github.io/Menu-board-app/
+  - 적립스탬프: https://eunji5683-tech.github.io/Stamp-plus-app/
+- **내 컴퓨터에서 파일을 직접 열었을 때**: `USE_LOCAL_LINKS = true`이면 컴퓨터 안의 앱 화면을 열어요. 이 폴더 옆에 `메뉴판`, `단골 적립 스탬프` 폴더가 나란히 있을 때만 돼요. `false`로 바꾸면 항상 인터넷 주소로 가요.
+- 주소가 바뀌면 `PROJECTS`의 `live`, `github` 자리만 고치세요.
 - 홍보자동생성기 카드는 항상 `promo.html`로 가요.
 
 ## 홍보 문구와 사진 바꾸는 법
@@ -47,8 +49,8 @@ HTML, CSS, JavaScript만 사용했고 별도 설치 없이 브라우저에서 �
 - 사진: `promo/` 폴더의 사진 파일을 바꾸거나, `promo.html`에서 사진 파일 이름을 바꿔요.
 
 ## ⚠️ 알아둘 점
-- 이 저장소를 **인터넷 사이트(GitHub Pages)**로 열면, 메뉴보드와 적립스탬프 카드는 `USE_LOCAL_LINKS`가 `true`일 때 열리지 않아요. 사이트로 올릴 때는 `false`로 바꾸거나 각 앱의 사이트 주소를 넣으세요.
 - 홍보자동생성기 소개 페이지의 문구에는 가게 이름과 위치가 들어 있어요.
+- 적립스탬프 사이트에는 관리자 화면(`admin.html`)도 함께 공개돼 있어요. 실제로 쓰기 전에 그 안의 관리자 비밀번호를 꼭 바꾸세요.
 
 ## 사용한 것
 HTML, CSS, JavaScript만 사용했어요. 리액트 같은 복잡한 도구는 쓰지 않았어요.

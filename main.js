@@ -18,30 +18,37 @@ const PROJECTS = {
   },
   menu: {
     github: "https://github.com/eunji5683-tech/Menu-board-app",
+    live: "https://eunji5683-tech.github.io/Menu-board-app/",       // 인터넷에서 바로 열리는 진짜 사이트 주소
     local: "../메뉴판/index.html"
   },
   stamp: {
     github: "https://github.com/eunji5683-tech/Stamp-plus-app",
+    live: "https://eunji5683-tech.github.io/Stamp-plus-app/",      // 인터넷에서 바로 열리는 진짜 사이트 주소
     local: "../단골 적립 스탬프/index.html"
   }
 };
 
-/* true  = 내 컴퓨터에 있는 화면을 바로 열어요 (이 폴더 옆에 다른 프로젝트 폴더가 있을 때만 돼요)
-   false = 인터넷(GitHub) 주소로 가요 (어디서 열어도 돼요) */
+/* true  = 내 컴퓨터에서 파일을 직접 열었을 때, 컴퓨터 안의 앱 화면을 바로 열어요 (옆에 다른 프로젝트 폴더가 있을 때만 돼요)
+           인터넷 사이트로 열었을 때는 자동으로 위의 live(진짜 사이트) 주소로 가요. 오류가 나지 않아요.
+   false = 항상 인터넷 주소(live 또는 GitHub)로 가요 */
 const USE_LOCAL_LINKS = true;
 
 /* ---------- 1) 카드 주소 넣기 ---------- */
+const IS_FILE = location.protocol === "file:";    // 내 컴퓨터에서 파일을 직접 열었는지
 document.querySelectorAll(".card[data-key]").forEach(card => {
   const p = PROJECTS[card.dataset.key];
   if (!p) return;
   if (p.page) {
     card.href = p.page;                           // 이 포트폴리오 안의 소개 페이지
     card.removeAttribute("target");               // 같은 창에서 열어요
-  } else if (USE_LOCAL_LINKS && p.local) {
+  } else if (USE_LOCAL_LINKS && IS_FILE && p.local) {
+    // 내 컴퓨터에서 파일을 직접 열었을 때만 컴퓨터 안의 화면으로 가요.
+    // (인터넷 사이트로 열었을 때는 그런 폴더가 없어서 오류가 나기 때문이에요.)
     card.href = encodeURI(p.local);               // 한글과 띄어쓰기가 있어도 열리게 바꿔요
     card.removeAttribute("target");               // 같은 창에서 열어요
   } else {
-    card.href = p.github;
+    // 인터넷에서 열었을 때: 진짜 사이트 주소(live)가 있으면 그곳으로, 없으면 GitHub 저장소로 가요.
+    card.href = p.live || p.github;
   }
 });
 
