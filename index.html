@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>포트폴리오 2 | 제가 만든 프로젝트</title>
+  <meta name="description" content="바이브코딩으로 만든 프로젝트 3개를 모아 둔 포트폴리오 메인 페이지예요.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 배경: 맑고 가벼운 바탕 위에 은은하게 번지는 색 -->
+  <div class="sky" aria-hidden="true">
+    <i class="blob b1"></i>
+    <i class="blob b2"></i>
+    <i class="blob b3"></i>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">PORTFOLIO 2</p>
+    <h1>제가 만든 <span class="grad">프로젝트</span></h1>
+    <p class="sub">바이브코딩으로 만든 세 가지 작품이에요.<br>카드를 눌러 하나씩 구경해 보세요.</p>
+  </header>
+
+  <!--
+    ===== 프로젝트 카드 3개 =====
+    [고치는 곳] 카드를 눌렀을 때 가는 주소는 아래 href 에 있어요.
+    (인터넷에 올린 진짜 주소가 생기면 그 주소로 바꾸세요. main.js 맨 위에서도 바꿀 수 있어요.)
+  -->
+  <main class="grid">
+
+    <!-- 1. 홍보자동생성기 -->
+    <a class="card c-promo" data-key="promo" href="promo.html">
+      <div class="stage" aria-hidden="true">
+        <div class="ground"></div>
+        <div class="ring back"></div>
+        <div class="orb big"></div>
+        <div class="ring front"></div>
+        <div class="orb mini m1"></div>
+        <div class="orb mini m2"></div>
+      </div>
+      <div class="body">
+        <span class="tag">사진 · 글쓰기 자동화</span>
+        <h2>홍보자동생성기</h2>
+        <p>매장 사진을 인스타 크기로 바꾸고 로고를 넣어요. 가게 말투로 홍보 문구까지 만들어 줘요.</p>
+        <span class="go">자세히 보기 <i>→</i></span>
+      </div>
+    </a>
+
+    <!-- 2. 메뉴보드 -->
+    <a class="card c-menu" data-key="menu" href="https://github.com/eunji5683-tech/Menu-board-app" target="_blank" rel="noopener">
+      <div class="stage" aria-hidden="true">
+        <div class="ground"></div>
+        <div class="coil" data-coil="menu"></div>
+        <div class="orb mini m1"></div>
+        <div class="orb mini m2"></div>
+      </div>
+      <div class="body">
+        <span class="tag">QR 디지털 메뉴판</span>
+        <h2>메뉴보드</h2>
+        <p>손님이 QR을 찍어 휴대폰으로 보는 메뉴판이에요. 카테고리, 시그니처, 품절 표시를 지원해요.</p>
+        <span class="go">자세히 보기 <i>→</i></span>
+      </div>
+    </a>
+
+    <!-- 3. 적립스탬프 -->
+    <a class="card c-stamp" data-key="stamp" href="https://github.com/eunji5683-tech/Stamp-plus-app" target="_blank" rel="noopener">
+      <div class="stage" aria-hidden="true">
+        <div class="ground"></div>
+        <div class="orb big"></div>
+        <div class="orb mini m1"></div>
+        <div class="orb mini m2"></div>
+        <div class="orb mini m3"></div>
+      </div>
+      <div class="body">
+        <span class="tag">단골 적립 웹앱</span>
+        <h2>적립스탬프</h2>
+        <p>번호 뒤 4자리로 스탬프를 찍고, 10개를 모으면 무료 음료! 기록은 사장님 휴대폰에만 저장돼요.</p>
+        <span class="go">자세히 보기 <i>→</i></span>
+      </div>
+    </a>
+
+  </main>
+
+  <footer class="foot">© 2026 My Portfolio 2</footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

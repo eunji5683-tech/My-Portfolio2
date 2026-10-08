@@ -1,0 +1,373 @@
+/* ==========================================================================
+   포트폴리오 2 - 그라데이션 리얼리즘
+   맑고 가벼운 바탕 위에, 부드러운 색 번짐이 있는 3D 구슬(구)과 코일(스프링)이 떠 있는 느낌
+   ========================================================================== */
+
+/* ===== 색깔 설정 [고치는 곳] ===== */
+:root {
+  --bg: #F7F8FD;        /* 맑은 바탕 */
+  --ink: #26233A;       /* 글자색 */
+  --ink-soft: #6B6882;  /* 흐린 글자색 */
+  --card: rgba(255, 255, 255, 0.62);
+  --line: rgba(255, 255, 255, 0.9);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  font-family: "Pretendard", "Gowun Dodum", "고운 돋움", "맑은 고딕", "Malgun Gothic", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ===== 배경: 은은하게 번지는 색 ===== */
+.sky { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.7; }
+.b1 { width: 46vw; height: 46vw; min-width: 320px; min-height: 320px; left: -12vw; top: -14vw; background: #E4DDFF; }
+.b2 { width: 40vw; height: 40vw; min-width: 280px; min-height: 280px; right: -10vw; top: 18vh; background: #FFE3D6; }
+.b3 { width: 44vw; height: 44vw; min-width: 300px; min-height: 300px; left: 24vw; bottom: -20vw; background: #D8F5EA; }
+
+/* ===== 맨 위 ===== */
+.hero { text-align: center; padding: 64px 20px 8px; }
+.eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.32em; color: var(--ink-soft); }
+.hero h1 { margin-top: 12px; font-size: clamp(34px, 6vw, 56px); line-height: 1.2; letter-spacing: -0.02em; }
+.grad {
+  background: linear-gradient(100deg, #FF6F91 0%, #9B5DE5 48%, #38BDF8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.sub { margin-top: 14px; font-size: clamp(15px, 2.2vw, 18px); color: var(--ink-soft); }
+
+/* ===== 카드 3개 ===== */
+.grid {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 36px 20px 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 26px;
+}
+
+.card {
+  --rx: 0deg; --ry: 0deg;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  background: var(--card);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.9) inset,
+    0 24px 50px -24px rgba(70, 60, 130, 0.35),
+    0 6px 16px -8px rgba(70, 60, 130, 0.12);
+  overflow: hidden;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: rise 0.7s cubic-bezier(.2, .8, .2, 1) both;
+}
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:hover, .card:focus-visible {
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.9) inset,
+    0 34px 60px -26px rgba(70, 60, 130, 0.45),
+    0 10px 22px -10px rgba(70, 60, 130, 0.18);
+}
+.card:focus-visible { outline: 3px solid #9B5DE5; outline-offset: 4px; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(26px); } }
+
+/* ===== 3D 무대 (구슬과 코일이 놓이는 곳) ===== */
+.stage {
+  position: relative;
+  /* 폭에 상한을 둬서, 카드가 넓어져도 구슬과 고리가 글자 쪽으로 내려오지 않게 해요 */
+  width: min(100%, 360px);
+  margin: 0 auto;
+  height: 270px;
+  perspective: 800px;
+  /* 카드마다 다른 부드러운 빛 */
+  background:
+    radial-gradient(circle at 50% 38%, var(--halo) 0%, transparent 62%);
+}
+
+/* 바닥 그림자 */
+.ground {
+  position: absolute;
+  left: 21%; bottom: 22px;
+  width: 58%; height: 26px;
+  background: radial-gradient(ellipse at center, rgba(52, 40, 110, 0.34) 0%, transparent 70%);
+  filter: blur(7px);
+  animation: shadowPulse 6s ease-in-out infinite;
+}
+@keyframes shadowPulse { 50% { transform: scale(0.84); opacity: 0.7; } }
+
+/* 마우스를 따라 살짝 움직이는 깊이감: --d 가 클수록 더 많이 움직여요 */
+.stage > * { --d: 10; translate: calc(var(--px, 0) * var(--d) * 1px) calc(var(--py, 0) * var(--d) * 1px); }
+
+/* ----- 구슬(구): 빛이 닿는 하이라이트 + 안쪽 그림자 + 바닥에 번지는 빛 ----- */
+.orb {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 31% 25%, rgba(255, 255, 255, 0.95) 0, rgba(255, 255, 255, 0.55) 7%, rgba(255, 255, 255, 0) 24%),
+    radial-gradient(circle at 80% 86%, rgba(255, 255, 255, 0.34) 0, rgba(255, 255, 255, 0) 30%),
+    radial-gradient(circle at 36% 30%, var(--c1) 0%, var(--c2) 52%, var(--c3) 100%);
+  box-shadow:
+    inset -16px -22px 38px rgba(30, 10, 80, 0.26),
+    inset 8px 10px 22px rgba(255, 255, 255, 0.34),
+    0 34px 44px -22px var(--glow);
+  animation: float 7s ease-in-out infinite;
+}
+.orb.big { width: 46%; left: 27%; top: 15%; z-index: 2; --d: 14; }
+.orb.mini {
+  width: 15%; z-index: 4; --d: 26; animation-duration: 5.5s;
+  /* 작은 구슬은 그림자를 약하게 해서 색이 칙칙해지지 않게 해요 */
+  box-shadow:
+    inset -5px -8px 14px rgba(30, 10, 80, 0.2),
+    inset 3px 4px 9px rgba(255, 255, 255, 0.4),
+    0 16px 20px -12px var(--glow);
+}
+.orb.m1 { left: 12%; top: 54%; width: 17%; animation-delay: -1.5s; }
+.orb.m2 { right: 11%; top: 20%; width: 13%; animation-delay: -3s; }
+.orb.m3 { right: 16%; top: 60%; width: 11%; animation-delay: -4.2s; }
+@keyframes float { 50% { transform: translateY(-12px); } }
+
+/* ----- 코일(스프링): main.js 가 그려 줘요 ----- */
+.coil {
+  position: absolute;
+  left: 11%; top: 4%;
+  width: 78%; height: 90%;
+  z-index: 2;
+  --d: 12;
+  animation: float 8s ease-in-out infinite;
+}
+.coil svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 24px 22px rgba(30, 60, 150, 0.28)); }
+
+/* ----- 구슬을 감싸는 고리: 뒤쪽 반은 구슬 뒤에, 앞쪽 반은 구슬 앞에 ----- */
+.ring {
+  position: absolute;
+  left: 11%; top: 11%;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(from 20deg, #FFB86B, #FF6F91, #B25CFF, #4DA8FF, #FFB86B);
+  -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%);
+  mask: radial-gradient(circle, transparent 60%, #000 61%);
+  transform: rotateZ(-20deg) rotateX(72deg);
+  filter: drop-shadow(0 10px 8px rgba(70, 30, 140, 0.25));
+  --d: 18;
+}
+.ring.back { z-index: 1; opacity: 0.85; }
+.ring.front { z-index: 3; clip-path: inset(50% 0 0 0); }
+
+/* ----- 카드마다 다른 색 ----- */
+.c-promo .stage { --halo: rgba(255, 150, 190, 0.34); }
+.c-promo .orb.big { --c1: #FFC9A6; --c2: #FF6F91; --c3: #7B3FE4; --glow: rgba(255, 90, 140, 0.6); width: 42%; left: 29%; top: 20%; }
+.c-promo .orb.m1  { --c1: #FFF0B8; --c2: #FFB84D; --c3: #FF7A45; --glow: rgba(255, 150, 60, 0.55); }
+.c-promo .orb.m2  { --c1: #BFE9FF; --c2: #5AB4FF; --c3: #3A5BE0; --glow: rgba(70, 130, 255, 0.5); }
+
+.c-menu .stage { --halo: rgba(100, 190, 255, 0.34); }
+.c-menu .orb.m1 { --c1: #C9FFE9; --c2: #32D4A4; --c3: #0E8F9E; --glow: rgba(30, 190, 160, 0.55); }
+.c-menu .orb.m2 { --c1: #FFE3F2; --c2: #FF8AC8; --c3: #C040C8; --glow: rgba(240, 100, 190, 0.5); }
+
+.c-stamp .stage { --halo: rgba(160, 230, 140, 0.4); }
+.c-stamp .orb.big { --c1: #F4FFB8; --c2: #8EE06B; --c3: #1FA276; --glow: rgba(70, 190, 110, 0.6); width: 44%; left: 24%; top: 18%; }
+.c-stamp .orb.m1  { --c1: #FFF6BF; --c2: #FFD23F; --c3: #F59E0B; --glow: rgba(250, 190, 40, 0.55); }
+.c-stamp .orb.m2  { --c1: #D6F5FF; --c2: #5ED0E6; --c3: #2386C8; --glow: rgba(60, 170, 230, 0.5); }
+.c-stamp .orb.m3  { --c1: #FFE0E8; --c2: #FF90A8; --c3: #E0457A; --glow: rgba(240, 90, 130, 0.5); }
+
+/* ===== 카드 아래 글자 ===== */
+.body { padding: 6px 26px 28px; display: flex; flex-direction: column; flex: 1; }
+.tag {
+  align-self: flex-start;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #5B4BA8;
+  background: rgba(155, 93, 229, 0.12);
+  border-radius: 999px;
+}
+.body h2 { margin-top: 12px; font-size: 25px; letter-spacing: -0.02em; }
+.body p { margin-top: 8px; font-size: 15px; color: var(--ink-soft); flex: 1; word-break: keep-all; overflow-wrap: break-word; }
+.go { margin-top: 18px; font-size: 15px; font-weight: 700; color: #7A45D8; }
+.go i { display: inline-block; font-style: normal; transition: transform 0.2s ease; }
+.card:hover .go i, .card:focus-visible .go i { transform: translateX(6px); }
+
+.foot { padding: 28px 20px 40px; text-align: center; font-size: 13px; color: var(--ink-soft); }
+
+/* ===== 작은 화면 ===== */
+@media (max-width: 640px) {
+  .hero { padding-top: 48px; }
+  .grid { gap: 20px; padding-top: 26px; }
+  .stage { height: 240px; }
+}
+
+/* ===== 움직임이 불편한 분을 위해: 기기 설정에서 '움직임 줄이기'를 켜 두면 효과를 꺼요 ===== */
+@media (prefers-reduced-motion: reduce) {
+  .card { animation: none; transition: none; }
+  .orb, .coil, .ground { animation: none; }
+  .stage > * { translate: none; }
+}
+
+/* ==========================================================================
+   홍보자동생성기 소개 페이지 (promo.html)
+   ========================================================================== */
+.back {
+  display: inline-block;
+  margin-bottom: 18px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #5B4BA8;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 6px 16px -8px rgba(70, 60, 130, 0.3);
+}
+.back:hover, .back:focus-visible { background: #fff; outline: none; }
+
+.promo-wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 20px; }
+
+.block {
+  margin-bottom: 26px;
+  padding: 30px 28px;
+  background: var(--card);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.9) inset, 0 24px 50px -28px rgba(70, 60, 130, 0.35);
+}
+.block-title { display: flex; align-items: center; gap: 12px; font-size: 24px; letter-spacing: -0.02em; }
+.num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  font-size: 16px; font-weight: 800; color: #fff;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, #FFD0B8 0, #FF6F91 45%, #7B3FE4 100%);
+  box-shadow: inset -3px -4px 8px rgba(30, 10, 80, 0.25), 0 8px 12px -6px rgba(255, 90, 140, 0.6);
+}
+.block-sub { margin: 10px 0 20px; font-size: 15px; color: var(--ink-soft); word-break: keep-all; }
+
+/* 사진 */
+.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
+.shot {
+  padding: 0; border: 0; cursor: zoom-in;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 18px 30px -16px rgba(70, 60, 130, 0.45);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.shot:hover, .shot:focus-visible { transform: translateY(-6px) scale(1.02); box-shadow: 0 28px 40px -18px rgba(70, 60, 130, 0.55); outline: none; }
+.shot:focus-visible { outline: 3px solid #9B5DE5; outline-offset: 3px; }
+
+dialog#viewer {
+  border: 0; padding: 0; background: transparent; overflow: visible;
+  max-width: min(92vw, 760px);
+  margin: auto;
+}
+dialog#viewer::backdrop { background: rgba(38, 35, 58, 0.62); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+#viewerImg { display: block; width: 100%; max-height: 82vh; object-fit: contain; border-radius: 24px; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6); }
+#viewerClose {
+  display: block; margin: 14px auto 0; padding: 12px 24px;
+  font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer;
+  color: var(--ink); background: #fff; border: 0; border-radius: 999px;
+}
+
+/* 느낌 고르기 (감성형 / 정보형 / 이벤트형) */
+.seg {
+  display: inline-flex; gap: 6px; padding: 6px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 8px 18px -10px rgba(70, 60, 130, 0.3);
+}
+.seg button {
+  min-height: 44px; padding: 0 22px;
+  font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer;
+  color: var(--ink-soft); background: transparent; border: 0; border-radius: 999px;
+  transition: background 0.2s, color 0.2s;
+}
+.seg button.active {
+  color: #fff;
+  background: linear-gradient(100deg, #FF6F91 0%, #9B5DE5 55%, #4AA8FF 100%);
+  box-shadow: 0 8px 16px -8px rgba(155, 93, 229, 0.7);
+}
+
+.copies { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; margin-top: 20px; }
+.copy-card {
+  display: flex; flex-direction: column;
+  padding: 20px 20px 22px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 16px 30px -20px rgba(70, 60, 130, 0.4);
+  animation: rise 0.45s ease both;
+}
+.copy-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.copy-label { font-size: 13px; font-weight: 800; color: #5B4BA8; background: rgba(155, 93, 229, 0.12); padding: 4px 12px; border-radius: 999px; }
+.copy-btn {
+  min-height: 36px; padding: 0 14px;
+  font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  color: #7A45D8; background: #fff; border: 1px solid rgba(122, 69, 216, 0.35); border-radius: 999px;
+}
+.copy-btn.done { color: #fff; background: #3FB487; border-color: #3FB487; }
+.copy-text { font-size: 15px; line-height: 1.8; white-space: pre-line; word-break: keep-all; overflow-wrap: break-word; }
+
+/* 만드는 방법 */
+.steps { list-style: none; counter-reset: step; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 18px; }
+.steps li {
+  counter-increment: step; position: relative;
+  padding: 58px 20px 20px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+}
+.steps li::before {
+  content: counter(step);
+  position: absolute; left: 20px; top: 16px;
+  width: 30px; height: 30px; line-height: 30px; text-align: center;
+  font-weight: 800; color: #fff; border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, #BDF4FF 0, #4AA8FF 50%, #6A3FE0 100%);
+}
+.steps b { display: block; font-size: 17px; }
+.steps span { display: block; margin-top: 6px; font-size: 14px; color: var(--ink-soft); word-break: keep-all; }
+.repo-link {
+  display: inline-block; margin-top: 22px; padding: 14px 24px;
+  font-size: 15px; font-weight: 800; text-decoration: none; color: #fff;
+  background: linear-gradient(100deg, #FF6F91 0%, #9B5DE5 55%, #4AA8FF 100%);
+  border-radius: 999px;
+  box-shadow: 0 14px 24px -12px rgba(155, 93, 229, 0.7);
+}
+
+@media (max-width: 640px) {
+  .promo-wrap { padding: 20px 14px 10px; }
+  .block { padding: 24px 18px; border-radius: 26px; }
+  .block-title { font-size: 21px; }
+  .gallery { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .seg { display: flex; }
+  .seg button { flex: 1; padding: 0 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .copy-card { animation: none; }
+  .shot { transition: none; }
+}
+
+/* 해시태그는 중간에서 줄이 바뀌지 않게 한 덩어리로 */
+.hash { display: inline-block; white-space: nowrap; color: #7A45D8; }

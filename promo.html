@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>홍보자동생성기 | 포트폴리오 2</title>
+  <meta name="description" content="매장 사진을 인스타 크기로 바꾸고, 가게 말투로 홍보 문구까지 만들어 주는 홍보자동생성기의 결과물이에요.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="promo-page">
+
+  <div class="sky" aria-hidden="true">
+    <i class="blob b1"></i>
+    <i class="blob b2"></i>
+    <i class="blob b3"></i>
+  </div>
+
+  <header class="hero">
+    <a class="back" href="index.html">← 포트폴리오로 돌아가기</a>
+    <p class="eyebrow">PROJECT 01</p>
+    <h1>홍보<span class="grad">자동생성기</span></h1>
+    <p class="sub">사진 몇 장과 가게 정보만 넣으면,<br>인스타용 사진과 홍보 문구가 한 번에 만들어져요.</p>
+  </header>
+
+  <main class="promo-wrap">
+
+    <!-- ===== 1. 만들어진 사진 ===== -->
+    <section class="block">
+      <h2 class="block-title"><span class="num">1</span>이런 사진이 만들어져요</h2>
+      <p class="block-sub">어떤 크기의 사진이든 인스타그램 정사각형(1080×1080)으로 바꾸고, 오른쪽 아래에 가게 로고를 넣어요. 사진을 누르면 크게 볼 수 있어요.</p>
+
+      <!-- [고치는 곳] 사진을 바꾸려면 promo 폴더의 사진 파일을 바꾸거나, 아래 src 의 파일 이름을 바꾸세요. -->
+      <div class="gallery">
+        <button type="button" class="shot" data-src="promo/20261002_01.jpg"><img src="promo/20261002_01.jpg" alt="홍보용 사진 1 (인스타그램 크기)" loading="lazy"></button>
+        <button type="button" class="shot" data-src="promo/20261002_02.jpg"><img src="promo/20261002_02.jpg" alt="홍보용 사진 2 (인스타그램 크기)" loading="lazy"></button>
+        <button type="button" class="shot" data-src="promo/20261002_03.jpg"><img src="promo/20261002_03.jpg" alt="홍보용 사진 3 (인스타그램 크기)" loading="lazy"></button>
+        <button type="button" class="shot" data-src="promo/20261002_04.jpg"><img src="promo/20261002_04.jpg" alt="홍보용 사진 4 (인스타그램 크기)" loading="lazy"></button>
+      </div>
+    </section>
+
+    <!-- ===== 2. 만들어진 문구 ===== -->
+    <section class="block">
+      <h2 class="block-title"><span class="num">2</span>이런 문구가 만들어져요</h2>
+      <p class="block-sub">가게 정보와 사장님 말투를 반영해서, 세 가지 느낌 × 세 가지 채널로 문구를 만들어요.</p>
+
+      <div class="seg" role="tablist" aria-label="문구 느낌 고르기" id="seg"></div>
+      <div class="copies" id="copies"></div>
+    </section>
+
+    <!-- ===== 3. 만드는 방법 ===== -->
+    <section class="block">
+      <h2 class="block-title"><span class="num">3</span>이렇게 만들어요</h2>
+      <ol class="steps">
+        <li><b>사진과 가게 정보를 넣어요</b><span>자료 폴더에 사진, 로고, 가게 정보, 내 말투를 넣어 둬요.</span></li>
+        <li><b>한 번만 실행해요</b><span>바탕화면의 "홍보물 만들기" 아이콘을 더블클릭해요.</span></li>
+        <li><b>완성 폴더에서 꺼내 써요</b><span>변환된 사진과 홍보 문구가 한꺼번에 저장돼요. 원본 사진은 그대로예요.</span></li>
+      </ol>
+      <a class="repo-link" href="https://github.com/eunji5683-tech/auto-generate-app" target="_blank" rel="noopener">GitHub에서 코드 보기 →</a>
+    </section>
+
+  </main>
+
+  <footer class="foot">© 2026 My Portfolio 2</footer>
+
+  <!-- 사진을 크게 보여주는 창 -->
+  <dialog id="viewer" aria-label="사진 크게 보기">
+    <img id="viewerImg" alt="">
+    <button type="button" id="viewerClose" aria-label="닫기">닫기 ✕</button>
+  </dialog>
+
+  <script src="promo.js"></script>
+</body>
+</html>
